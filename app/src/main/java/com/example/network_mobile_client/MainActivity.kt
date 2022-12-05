@@ -2,10 +2,10 @@ package com.example.network_mobile_client
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.Button
 import com.example.network_mobile_client.ui.chat.ChatFragment
 import com.example.network_mobile_client.ui.file_list.FileListFragment
 import com.example.network_mobile_client.ui.main.MainFragment
+
 
 class MainActivity : AppCompatActivity() {
 
@@ -28,8 +28,7 @@ class MainActivity : AppCompatActivity() {
 
             1 -> {
                 supportFragmentManager.beginTransaction()
-                    .replace(R.id.main_container, ChatFragment.newInstance())
-                    .commit()
+                    .replace(R.id.main_container, ChatFragment.newInstance()).commit()
             }
 
             2 -> {

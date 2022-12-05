@@ -7,107 +7,100 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.example.network_mobile_client.MainActivity
-import com.example.network_mobile_client.databinding.FragmentChatBinding
-import java.io.InputStream
-import java.io.OutputStream
-import java.net.InetAddress
-import java.net.InetSocketAddress
-import java.net.Socket
+import com.example.network_mobile_client.network.ClientSocket
 import kotlin.concurrent.thread
+import android.os.Handler
+import android.os.Looper
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.example.network_mobile_client.databinding.FragmentChatBinding
+import com.example.network_mobile_client.ui.chat.adapter.ChatRecyclerViewAdapter
+import java.io.IOException
+import java.net.SocketException
+import java.time.LocalDate
+import java.time.LocalDateTime
+import java.util.Calendar
+import java.util.Date
 
 class ChatFragment : Fragment() {
-    companion object {
-        fun newInstance() = ChatFragment()
-    }
-
-    private lateinit var socket: Socket
-    private lateinit var inputStream: InputStream
-    private lateinit var outputStream: OutputStream
+    private lateinit var socket: ClientSocket
+    private lateinit var chatView: RecyclerView
+    private val mainHandler = Handler(Looper.getMainLooper())
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
         val binding = FragmentChatBinding.inflate(inflater, container, false)
-        val message = binding.edtMessage.text
 
-        thread{
-            connect(8082)
-            var isRead = false
-            while(!isRead) {
-                isRead = read()
-            }
-        }
-
-        binding.btnSubmit.setOnClickListener {
-            thread {
-                // val testData =
-                //    "GET /test.jpg HTTP/1.1\r\nHost: localhost:8082\r\nUser-Agent: Mozilla/5.0 Chrome/99.99\r\nContent-Type: Text\r\nContent-Length: 15\r\n\r\nHello, network!"
-
-                val edtMessage = binding.edtMessage.text.toString()
-                sendData(edtMessage)
-                Log.d("socket", edtMessage)
-
-                // GET 요청에 대한 Response를 통해 채팅 리스트를 불러온다.
-
-                // 채팅 리스트를 기반으로 fragment의 채팅 리스트를 구현한다.
-            }
-        }
-
-        binding.imgbtnQuit.setOnClickListener {
-            flush()
-            closeConnect()
-
-            val mActivity = activity as MainActivity
-            mActivity.changeFragment(0)
-        }
+        initViewAdapter(binding)
+        initSocket()
+        initBtn(binding)
 
         return binding.root
     }
 
-    private fun connect(portNumber: Int) {
-        try {
-            //10.0.2.2
-            //socket = Socket("192.168.148.182", portNumber)
-            //socket = Socket("10.0.2.2", portNumber)
-            socket = Socket("192.168.85.22", portNumber)
+    private fun initSocket() {
+        Thread {
+            Log.d("socket", "여긴도착")
+            socket = ClientSocket()
+            while (true) {
+                val inputStream = socket.getInputStream()
+                try {
+                    if(inputStream.available() > 0) {
+                        inputStream.bufferedReader(Charsets.UTF_8).forEachLine {
+                            val msg = it
+                            mainHandler.post {
+                                run {
+                                    (chatView.adapter as ChatRecyclerViewAdapter).addChatData(
+                                        msg,
+                                        Calendar.getInstance()
+                                    )
+                                    (chatView.adapter as ChatRecyclerViewAdapter).notifyItemInserted((chatView.adapter as ChatRecyclerViewAdapter).itemCount)
+                                }
+                            }
+                        }
+                    }
+                } catch (_: SocketException) {
+                } catch (_: IOException) {
+                }
+            }
+        }.start()
+    }
 
-            outputStream = socket.getOutputStream()
-            inputStream = socket.getInputStream()
-        } catch (e: Exception) {
-            Log.d("socket", "socket connect exception")
-            Log.d("socket", "e: $e")
+    private fun initBtn(binding: FragmentChatBinding) {
+        binding.btnSubmit.setOnClickListener {
+            thread {
+                val edtMessage = binding.edtMessage.text.toString()
+                try {
+                    socket.sendData(edtMessage)
+                    Log.d("socket", edtMessage)
+                } catch (e: UninitializedPropertyAccessException) {}
+            }
+        }
+
+        binding.imgbtnQuit.setOnClickListener {
+            try {
+                socket.closeConnect()
+            } catch (_: UninitializedPropertyAccessException) {}
+
+            val mActivity = activity as MainActivity
+            mActivity.changeFragment(0)
         }
     }
 
-    private fun sendData(data: String) {
-        outputStream.write(
-            (data + "\n").toByteArray(Charsets.UTF_8)
+    private fun initViewAdapter(binding: FragmentChatBinding) {
+        chatView = binding.recyclerMessages
+        chatView.layoutManager = LinearLayoutManager(activity, RecyclerView.VERTICAL, false)
+        chatView.adapter = ChatRecyclerViewAdapter(binding, mutableListOf())
+        chatView.addItemDecoration(
+            DividerItemDecoration(
+                activity, LinearLayoutManager.VERTICAL
+            )
         )
     }
 
-    private fun flush() {
-        outputStream.flush()
-    }
-
-    private fun read(): Boolean {
-        var isRead = false
-        if (inputStream.available() > 0) {
-            isRead = true
-        }
-        inputStream.bufferedReader(Charsets.UTF_8).forEachLine {
-            Log.d("socket", it)
-        }
-        return isRead
-    }
-
-    private fun closeConnect() {
-        outputStream.close()
-        inputStream.close()
-        socket.close()
-    }
-
-    private fun request() {
-
+    companion object {
+        fun newInstance() = ChatFragment()
     }
 }

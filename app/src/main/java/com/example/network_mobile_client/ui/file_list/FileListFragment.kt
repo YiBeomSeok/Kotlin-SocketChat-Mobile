@@ -20,29 +20,4 @@ class FileListFragment : Fragment() {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_file_list, container, false)
     }
-
-    /*
-    GET /fileList HTTP/1.1
-    accept: application/json
-    content-type: application/json
-
-
-    HTTP/1.1 200 OK
-    "Content-Type: json; charset=utf-8
-
-    "file1 file2 file3 file4 file5 ..."
-
-     */
-
-    /*
-    POST /uploadFile HTTP/1.1
-    accept: application/json
-    content-type: application/json
-    file
-
-    HTTP/1.1 200 OK
-    "Content-Type: json; charset=utf-8
-
-
-     */
 }

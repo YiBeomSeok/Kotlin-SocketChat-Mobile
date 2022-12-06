@@ -31,7 +31,6 @@ class ClientSocket {
         val sb = StringBuilder()
         if (inputStream.available() > 0) {
             val msg = inputStream.bufferedReader(Charsets.UTF_8).readLine()
-            Log.d("socket", msg)
             sb.append(msg)
 
             return sb.toString()
@@ -42,9 +41,6 @@ class ClientSocket {
     private fun connect() {
         try {
             socket = Socket(HOST, PORT_NUMBER)
-//            Log.d("socket", socket.isConnected.toString())
-//            Log.d("socket", socket.inetAddress.toString())
-
             outputStream = DataOutputStream(socket.getOutputStream())
             inputStream = DataInputStream(socket.getInputStream())
         } catch (e: Exception) {

@@ -27,9 +27,9 @@ class MainFragment : Fragment() {
             mActivity.changeFragment(1)
         }
 
-        binding.btnFileList.setOnClickListener {
-            mActivity.changeFragment(2)
-        }
+//        binding.btnFileList.setOnClickListener {
+//            mActivity.changeFragment(2)
+//        }
 
         return binding.root
     }

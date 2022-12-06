@@ -31,11 +31,11 @@ class MainActivity : AppCompatActivity() {
                     .replace(R.id.main_container, ChatFragment.newInstance()).commit()
             }
 
-            2 -> {
-                supportFragmentManager.beginTransaction()
-                    .replace(R.id.main_container, FileListFragment.newInstance())
-                    .commit()
-            }
+//            2 -> {
+//                supportFragmentManager.beginTransaction()
+//                    .replace(R.id.main_container, FileListFragment.newInstance())
+//                    .commit()
+//            }
         }
     }
 }

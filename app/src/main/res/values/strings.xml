@@ -8,4 +8,5 @@
     <string name="text_input_message">메시지 입력</string>
     <string name="text_today">오늘</string>
     <string name="text_open_chatting">오픈채팅</string>
+    <string name="main_background">메인배경</string>
 </resources>

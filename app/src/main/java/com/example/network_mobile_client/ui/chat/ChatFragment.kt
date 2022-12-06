@@ -30,7 +30,7 @@ class ChatFragment : Fragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         val binding = FragmentChatBinding.inflate(inflater, container, false)
 
         initViewAdapter(binding)
@@ -75,7 +75,7 @@ class ChatFragment : Fragment() {
                 try {
                     socket.sendData(edtMessage)
                     Log.d("socket", edtMessage)
-                } catch (e: UninitializedPropertyAccessException) {}
+                } catch (_: UninitializedPropertyAccessException) {}
             }
         }
 

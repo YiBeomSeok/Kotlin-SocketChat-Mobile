@@ -49,9 +49,6 @@ class FileListFragment : Fragment() {
         intent.type = "image/*"
         intent.action = Intent.ACTION_GET_CONTENT
         getContent.launch("image/*")
-        //startActivityForResult(intent, 1)
-
-        //initSocket()
 
         return binding.root
     }

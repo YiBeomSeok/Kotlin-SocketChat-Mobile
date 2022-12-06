@@ -21,11 +21,12 @@ class MainFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentMainBinding.inflate(inflater, container, false)
-        val hostIP = binding.edtHostIp.text.toString()
+
 
         val mActivity = activity as MainActivity
         binding.btnChatStart.setOnClickListener {
-            mActivity.changeFragment(1, hostIP)
+            val hostIP = binding.edtHostIp.text.toString()
+            mActivity.changeFragment(1, hostIp = hostIP)
         }
 
 //        binding.btnFileList.setOnClickListener {

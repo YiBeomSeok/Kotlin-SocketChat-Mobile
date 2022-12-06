@@ -1,6 +1,7 @@
 package com.example.network_mobile_client.network
 
 import android.util.Log
+import android.widget.Toast
 import java.io.DataInputStream
 import java.io.DataOutputStream
 import java.net.Socket
@@ -11,6 +12,8 @@ class ClientSocket(private val host: String = "10.0.2.2") {
     private lateinit var outputStream: DataOutputStream
 
     init {
+        HOST = host
+        Log.d("socket", "host = $HOST")
         connect()
     }
 

@@ -23,7 +23,7 @@ import java.time.LocalDateTime
 import java.util.Calendar
 import java.util.Date
 
-class ChatFragment(hostIP: String) : Fragment() {
+class ChatFragment(private val hostIP: String) : Fragment() {
     private lateinit var socket: ClientSocket
     private lateinit var chatView: RecyclerView
     private val mainHandler = Handler(Looper.getMainLooper())
@@ -43,7 +43,7 @@ class ChatFragment(hostIP: String) : Fragment() {
     private fun initSocket() {
         Thread {
             Log.d("socket", "여긴도착")
-            socket = ClientSocket()
+            socket = ClientSocket(this.hostIP)
             while (true) {
                 val inputStream = socket.getInputStream()
                 try {

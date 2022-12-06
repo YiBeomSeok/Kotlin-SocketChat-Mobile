@@ -8,8 +8,6 @@ import com.example.network_mobile_client.databinding.ChatMessageLayoutBinding
 import com.example.network_mobile_client.databinding.FragmentChatBinding
 import java.util.Calendar
 
-import java.util.Date
-import kotlin.time.Duration.Companion.days
 
 class ChatRecyclerViewAdapter(
     private val binding: FragmentChatBinding,

@@ -21,19 +21,16 @@ class MainFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentMainBinding.inflate(inflater, container, false)
+        initBtn()
 
+        return binding.root
+    }
 
+    private fun initBtn() {
         val mActivity = activity as MainActivity
         binding.btnChatStart.setOnClickListener {
             val hostIP = binding.edtHostIp.text.toString()
             mActivity.changeFragment(1, hostIp = hostIP)
         }
-
-//        binding.btnFileList.setOnClickListener {
-//            mActivity.changeFragment(2)
-//        }
-
-        return binding.root
     }
-
 }

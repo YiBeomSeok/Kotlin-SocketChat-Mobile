@@ -3,11 +3,9 @@ package com.example.network_mobile_client.network
 import android.util.Log
 import java.io.DataInputStream
 import java.io.DataOutputStream
-import java.io.InputStream
-import java.io.OutputStream
 import java.net.Socket
 
-class ClientSocket {
+class ClientSocket(private val host: String = "10.0.2.2") {
     lateinit var socket: Socket
     private lateinit var inputStream: DataInputStream
     private lateinit var outputStream: DataOutputStream
@@ -38,6 +36,12 @@ class ClientSocket {
         return ""
     }
 
+    fun closeConnect() {
+        outputStream.close()
+        inputStream.close()
+        socket.close()
+    }
+
     private fun connect() {
         try {
             socket = Socket(HOST, PORT_NUMBER)
@@ -49,12 +53,6 @@ class ClientSocket {
         }
     }
 
-    fun closeConnect() {
-        outputStream.close()
-        inputStream.close()
-        socket.close()
-    }
-
     companion object {
         const val PORT_NUMBER = 8082
 
@@ -62,6 +60,6 @@ class ClientSocket {
         // "10.0.2.2"
         // WiFi
         // "192.168.85.22"
-        const val HOST = "10.0.2.2"
+        var HOST = "10.0.2.2"
     }
 }

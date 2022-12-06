@@ -19,7 +19,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    fun changeFragment(index: Int) {
+    fun changeFragment(index: Int, hostIp: String = "10.0.2.2") {
         when (index) {
             0 -> {
                 supportFragmentManager.beginTransaction()
@@ -28,7 +28,7 @@ class MainActivity : AppCompatActivity() {
 
             1 -> {
                 supportFragmentManager.beginTransaction()
-                    .replace(R.id.main_container, ChatFragment.newInstance()).commit()
+                    .replace(R.id.main_container, ChatFragment.newInstance(hostIp)).commit()
             }
 
 //            2 -> {

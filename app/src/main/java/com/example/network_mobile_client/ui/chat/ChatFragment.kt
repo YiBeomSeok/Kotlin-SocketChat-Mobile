@@ -23,7 +23,7 @@ import java.time.LocalDateTime
 import java.util.Calendar
 import java.util.Date
 
-class ChatFragment : Fragment() {
+class ChatFragment(hostIP: String) : Fragment() {
     private lateinit var socket: ClientSocket
     private lateinit var chatView: RecyclerView
     private val mainHandler = Handler(Looper.getMainLooper())
@@ -101,6 +101,6 @@ class ChatFragment : Fragment() {
     }
 
     companion object {
-        fun newInstance() = ChatFragment()
+        fun newInstance(hostIP: String) = ChatFragment(hostIP)
     }
 }

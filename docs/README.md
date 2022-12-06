@@ -2,9 +2,6 @@
 
 ## Socket
 
-## HTTP Protocol
-
-
 ## MainActivity
 - 채팅하기 버튼
   - 누르면 채팅 fragment 전환

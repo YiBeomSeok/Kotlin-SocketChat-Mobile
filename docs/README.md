@@ -1,18 +1,33 @@
-# 구현할 기능 목록
+# 💻 Kotlin-SocketChat-Client
+Socket을 이용한 kotlin client mobile application
 
-## Socket
+## 🛠 Specification
+- IDE: android studio
+- min SDK 27
+- jetpack component
+- kotlin version 17
 
-## HTTP Protocol
+## 📢 How to use
+- 실행 후 server host IP 입력
+- port number 8082 사용(기본)
+- 채팅 시작
 
 
-## MainActivity
-- 채팅하기 버튼
-  - 누르면 채팅 fragment 전환
-- 서버 파일 목록 버튼
-  - 누르면 파일 목록 fragment 전환
+### ClientSocket.class
+`ClientSocket`이 server측과 socket 통신
 
-## Fragment
+### ChatFragment.class
+`RecyclerView` 내에서 채팅 가능
 
-### 채팅 fragment
+### FileListFragment.class
+- 기능구현 중
+- server로부터 파일 업로드/다운로드 기능
 
-### 파일 리스트 출력 및 업로드 & 다운로드 fragment
+## 📜 USE CASE
+![usecase](./images/usecase.png)
+
+## 📜 Class Diagram
+![classdiagram](./images/classdiagram.png)
+
+## 📜 Sequence Diagram
+![sequencediagram](./images/sequencediagram.png)

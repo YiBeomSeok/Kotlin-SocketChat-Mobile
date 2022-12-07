@@ -13,6 +13,9 @@ Socket을 이용한 kotlin client mobile application
 - 채팅 시작
 
 
+![mobile_ex1](./images/mobile_example_1.png)
+![mobile_ex2](./images/mobile_example_2.png)
+
 ### ClientSocket.class
 `ClientSocket`이 server측과 socket 통신
 
